@@ -25,21 +25,20 @@ Project ini mengimplementasikan penggunaan `useState` pada React dengan fitur-fi
 
 1. Pastikan kamu sudah menginstal Node.js di komputermu.
 2. Clone repository ini:
-```bash
+   ```bash
    git clone https://github.com/Kokoparel/FilmTracker
-   ```
 3. Masuk ke dalam direktori project:
    ```bash
    cd film-tracker
-   ```
+   
 4. Install semua *dependencies*:
    ```bash
    npm install
-   ```
+   
 5. Jalankan *development server*:
    ```bash
    npm run dev
-   ```
+   
 6. Buka `http://localhost:5173` di browsermu.
 
 ## 👤 Author
