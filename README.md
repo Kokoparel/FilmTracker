@@ -1,3 +1,5 @@
+
+
 ```markdown
 # 🎬 Indonesian Film Synopsis & Rating Tracker
 
@@ -23,12 +25,12 @@ Project ini mengimplementasikan penggunaan `useState` pada React dengan fitur-fi
 
 1. Pastikan kamu sudah menginstal Node.js di komputermu.
 2. Clone repository ini:
-   ```bash
-   git clone <link-repository-kamu>
+```bash
+   git clone https://github.com/Kokoparel/FilmTracker
    ```
 3. Masuk ke dalam direktori project:
    ```bash
-   cd <nama-folder-project>
+   cd film-tracker
    ```
 4. Install semua *dependencies*:
    ```bash
