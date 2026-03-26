@@ -1,11 +1,3 @@
-Boleh banget! [cite_start]Sebuah *project* GitHub yang rapi itu wajib punya `README.md` yang jelas, apalagi ini untuk tugas GDGoC[cite: 1]. Asisten penilai pasti akan sangat menghargai *project* yang terdokumentasi dengan baik.
-
-[cite_start]Karena kamu membuat **Indonesian Film Synopsis & Rating Tracker**, aku sudah merancang isi `README.md` ini agar menyoroti semua fitur wajib dari penugasan (seperti *toggle*, *counter*, dan *conditional rendering*)[cite: 23, 24, 25]. Aku juga sudah memasukkan namamu di bagian kreator.
-
-Kamu tinggal *copy* teks di dalam kotak di bawah ini, lalu *paste* ke dalam *file* `README.md` yang ada di *folder project*-mu (timpa saja bawaan dari Vite).
-
-***
-
 ```markdown
 # 🎬 Indonesian Film Synopsis & Rating Tracker
 
