@@ -1,4 +1,4 @@
-// konfigurasi API biar ga
+// konfigurasi API biar ga hardcode
 
 
 export const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY
