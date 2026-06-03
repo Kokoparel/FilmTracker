@@ -1,6 +1,4 @@
-// konfigurasi API biar ga
-
-
+// konfigurasi API biar ga hardcode
 export const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY
 export const TMDB_BASE_URL = import.meta.env.VITE_TMDB_BASE_URL
 export const TMDB_IMAGE_BASE_URL = import.meta.env.VITE_TMDB_IMAGE_BASE_URL
@@ -17,7 +15,7 @@ export function getImageUrl(path, size = 'w500') { // default size
 
 /**
  * @param {string} endpoint - Endpoint TMDB tanpa base URL (contoh: "/movie/popular")
- * @param {Record<string,string>} params - Query params tambahan
+ * @param {Record<string,string>} params
  */
 
 export async function fetchTMDB(endpoint, params = {}) {

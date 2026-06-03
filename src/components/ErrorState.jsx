@@ -1,9 +1,10 @@
 /**
- * ErrorState — ditampilin pas gagal fetch data
+ * ErrorState — ditampilin pas gagal fetch data biar web ga langsung crash
  * Props:
  *   message — string pesan error dari catch block
  *   onRetry  — fungsi callback untuk coba fetch ulang
  */
+
 export default function ErrorState({ message, onRetry }) {
   return (
     <div className="flex flex-col items-center justify-center py-24 gap-6 text-center">

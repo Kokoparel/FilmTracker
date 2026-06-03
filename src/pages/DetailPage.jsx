@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { fetchTMDB, getImageUrl } from '../api/tmdb'
+import { useNavigate } from 'react-router-dom'
+import { useFilmDetail } from '../hooks/useFilmDetail'
 import ErrorState from '../components/ErrorState'
 
 /** ─── Sub-komponen: Badge Info ──────────────────────── */
@@ -41,47 +40,29 @@ function DetailSkeleton() {
 
 /**
  * DetailPage — Halaman detail satu film.
- * Mengambil ID dari URL params, lalu fetch detail ke TMDB API.
+ *
+ * Semua state, fetch, dan derived data dikelola oleh `useFilmDetail()`.
+ * Komponen ini hanya bertanggung jawab atas rendering UI.
  *
  * Route: /film/:id
  */
+
 export default function DetailPage() {
-  const { id } = useParams()
   const navigate = useNavigate()
-
-  const [film, setFilm] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  const fetchDetail = async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      const data = await fetchTMDB(`/movie/${id}`, { append_to_response: 'credits' })
-      setFilm(data)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchDetail()
-    // Scroll ke atas saat halaman berganti
-    window.scrollTo(0, 0)
-  }, [id])
-
-  const posterUrl = film ? getImageUrl(film.poster_path, 'w500') : null
-  const backdropUrl = film ? getImageUrl(film.backdrop_path, 'original') : null
-
-  // Ambil data sutradara dari credits
-  const director = film?.credits?.crew?.find((c) => c.job === 'Director')?.name
-  const cast = film?.credits?.cast?.slice(0, 5).map((c) => c.name).join(', ')
-  const genres = film?.genres?.map((g) => g.name).join(' · ')
-  const year = film?.release_date?.slice(0, 4)
-  const runtime = film?.runtime ? `${film.runtime} menit` : null
-  const score = film?.vote_average ? film.vote_average.toFixed(1) : null
+  const {
+    film,
+    loading,
+    error,
+    retry,
+    posterUrl,
+    backdropUrl,
+    director,
+    cast,
+    genres,
+    year,
+    runtime,
+    score,
+  } = useFilmDetail()
 
   return (
     <main className="min-h-screen">
@@ -109,7 +90,7 @@ export default function DetailPage() {
         </button>
 
         {loading && <DetailSkeleton />}
-        {error && <ErrorState message={error} onRetry={fetchDetail} />}
+        {error && <ErrorState message={error} onRetry={retry} />}
 
         {!loading && !error && film && (
           <div className="flex flex-col md:flex-row gap-10">

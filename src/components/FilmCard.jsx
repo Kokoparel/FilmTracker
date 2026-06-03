@@ -1,15 +1,12 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getImageUrl } from '../api/tmdb'
-
-const MAX_RATING = 5
-const MIN_RATING = 0
+import { useFilmRating } from '../hooks/useFilmRating'
 
 /** ─── Sub-komponen: Tampilan bintang ─────────────────── */
-function StarDisplay({ rating, isMasterpiece }) {
+function StarDisplay({ rating, isMasterpiece, maxRating }) {
   return (
     <div className="flex items-center gap-0.5">
-      {Array.from({ length: MAX_RATING }).map((_, i) => {
+      {Array.from({ length: maxRating }).map((_, i) => {
         const filled = i < rating
         return (
           <svg
@@ -46,9 +43,18 @@ function GenreBadge({ genre }) {
   )
 }
 
-/** ─── Komponen Utama: FilmCard ───────────────────────── */
+/**
+ * FilmCard — Kartu satu film di daftar.
+ *
+ * State dan logic rating dikelola oleh `useFilmRating()`.
+ * Komponen ini hanya bertanggung jawab atas rendering UI.
+ *
+ * @param {{ film: object }} props
+ */
+
 export default function FilmCard({ film }) {
   const navigate = useNavigate()
+  const { rating, isMasterpiece, handleIncrease, handleDecrease, MAX_RATING, MIN_RATING } = useFilmRating()
 
   const {
     id,
@@ -64,11 +70,6 @@ export default function FilmCard({ film }) {
   const tmdbScore = vote_average ? vote_average.toFixed(1) : '—'
   const posterUrl = getImageUrl(poster_path, 'w500')
 
-  const [rating, setRating] = useState(0)
-  const isMasterpiece = rating === MAX_RATING
-
-  const handleIncrease = () => setRating((prev) => Math.min(prev + 1, MAX_RATING))
-  const handleDecrease = () => setRating((prev) => Math.max(prev - 1, MIN_RATING))
   const handleDetailClick = () => navigate(`/film/${id}`)
 
   return (
@@ -153,7 +154,7 @@ export default function FilmCard({ film }) {
               Rating Anda
             </span>
             <div className="flex items-center gap-2">
-              <StarDisplay rating={rating} isMasterpiece={isMasterpiece} />
+              <StarDisplay rating={rating} isMasterpiece={isMasterpiece} maxRating={MAX_RATING} />
               <span className={`font-mono text-sm font-medium transition-colors duration-300 ${isMasterpiece ? 'text-film-gold' : 'text-film-text'}`}>
                 {rating}/{MAX_RATING}
               </span>

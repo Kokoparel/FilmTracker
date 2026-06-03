@@ -1,38 +1,15 @@
-import { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { useNavSearch } from '../hooks/useNavSearch'
 
 /**
  * Navbar — Header navigasi global dengan search bar.
  *
- * Search bar submit ke /?q=query menggunakan URL search params
+ * Semua state dan logic search dikelola oleh `useNavSearch()`.
+ * Komponen ini hanya bertanggung jawab atas rendering UI.
  */
+
 export default function Navbar() {
-  const location = useLocation()
-  const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const isHome = location.pathname === '/'
-
-  // Sinkronkan input dengan query di URL saat halaman dimuat
-  const [query, setQuery] = useState(searchParams.get('q') || '')
-
-  useEffect(() => {
-    setQuery(searchParams.get('q') || '')
-  }, [searchParams])
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const trimmed = query.trim()
-    if (trimmed) {
-      navigate(`/?q=${encodeURIComponent(trimmed)}`)
-    } else {
-      navigate('/')
-    }
-  }
-
-  const handleClear = () => {
-    setQuery('')
-    navigate('/')
-  }
+  const { query, setQuery, handleSubmit, handleClear } = useNavSearch()
 
   return (
     <header className="relative overflow-hidden border-b border-film-border sticky top-0 z-50 bg-film-black/90 backdrop-blur-sm">
@@ -45,7 +22,7 @@ export default function Navbar() {
       <div className="film-strip h-1.5 w-full opacity-50" />
 
       <div className="relative max-w-6xl mx-auto px-6 py-4 flex items-center gap-6">
-        {/* judul */}
+        {/* Judul */}
         <Link to="/" className="flex items-center gap-2 flex-shrink-0" id="nav-logo" onClick={handleClear}>
           <span className="font-mono text-[10px] tracking-[0.3em] text-film-gold uppercase opacity-80">✦</span>
           <span className="font-display text-xl font-bold gold-shimmer">FilmTracker</span>
