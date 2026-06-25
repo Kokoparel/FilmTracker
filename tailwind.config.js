@@ -13,17 +13,17 @@ export default {
       },
       colors: {
         'film': {
-          'black':   '#0a0a0b',
-          'dark':    '#111114',
-          'card':    '#17171c',
-          'border':  '#2a2a35',
-          'muted':   '#3a3a48',
-          'gold':    '#d4a843',
+          'black': '#0a0a0b',
+          'dark': '#111114',
+          'card': '#17171c',
+          'border': '#2a2a35',
+          'muted': '#3a3a48',
+          'gold': '#d4a843',
           'gold-lt': '#f0c96b',
-          'cream':   '#f5efe6',
-          'red':     '#c0392b',
-          'text':    '#e8e0d5',
-          'sub':     '#8a8494',
+          'cream': '#f5efe6',
+          'red': '#c0392b',
+          'text': '#e8e0d5',
+          'sub': '#8a8494',
         }
       },
       boxShadow: {

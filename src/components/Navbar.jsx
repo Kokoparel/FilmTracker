@@ -1,15 +1,20 @@
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
 import { useNavSearch } from '../hooks/useNavSearch'
+import { ThemeContext } from '../contexts/ThemeContext'
+import { FavoritesContext } from '../contexts/FavoritesContext'
 
 /**
  * Navbar — Header navigasi global dengan search bar.
  *
  * Semua state dan logic search dikelola oleh `useNavSearch()`.
- * Komponen ini hanya bertanggung jawab atas rendering UI.
+ * Tema dan favorit dibaca dari Context API global.
  */
 
 export default function Navbar() {
   const { query, setQuery, handleSubmit, handleClear } = useNavSearch()
+  const { theme, toggleTheme } = useContext(ThemeContext)
+  const { favorites } = useContext(FavoritesContext)
 
   return (
     <header className="relative overflow-hidden border-b border-film-border sticky top-0 z-50 bg-film-black/90 backdrop-blur-sm">
@@ -71,15 +76,39 @@ export default function Navbar() {
           </button>
         </form>
 
-        {/* Nav link Home */}
-        <Link
-          to="/"
-          id="nav-home"
-          onClick={handleClear}
-          className="flex-shrink-0 font-body text-sm font-bold gold-shimmer transition-colors duration-200"
-        >
-          Home
-        </Link>
+        {/* Nav actions */}
+        <div className="flex items-center gap-3 flex-shrink-0">
+          {/* Favorit counter */}
+          {favorites.length > 0 && (
+            <span
+              className="flex items-center gap-1 font-mono text-xs text-film-gold border border-film-gold/30 rounded-full px-2 py-0.5"
+              title={`${favorites.length} film favorit`}
+            >
+              ♥ {favorites.length}
+            </span>
+          )}
+
+          {/* Tombol toggle tema */}
+          <button
+            id="theme-toggle-btn"
+            onClick={toggleTheme}
+            className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full border border-film-border text-film-sub hover:border-film-gold hover:text-film-gold transition-all duration-200 text-sm"
+            aria-label={`Ganti ke mode ${theme === 'dark' ? 'terang' : 'gelap'}`}
+            title={`Mode ${theme === 'dark' ? 'Terang' : 'Gelap'}`}
+          >
+            {theme === 'dark' ? '☀' : '☾'}
+          </button>
+
+          {/* Nav link Home */}
+          <Link
+            to="/"
+            id="nav-home"
+            onClick={handleClear}
+            className="font-body text-sm font-bold gold-shimmer transition-colors duration-200"
+          >
+            Home
+          </Link>
+        </div>
       </div>
 
       <div className="film-strip h-1.5 w-full opacity-50" />

@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
 import { useFilmDetail } from '../hooks/useFilmDetail'
 import ErrorState from '../components/ErrorState'
+import { FavoritesContext } from '../contexts/FavoritesContext'
 
 /** ─── Sub-komponen: Badge Info ──────────────────────── */
 function InfoBadge({ label, value }) {
@@ -42,7 +44,7 @@ function DetailSkeleton() {
  * DetailPage — Halaman detail satu film.
  *
  * Semua state, fetch, dan derived data dikelola oleh `useFilmDetail()`.
- * Komponen ini hanya bertanggung jawab atas rendering UI.
+ * Data favorit dibaca dari FavoritesContext (global state).
  *
  * Route: /film/:id
  */
@@ -63,6 +65,9 @@ export default function DetailPage() {
     runtime,
     score,
   } = useFilmDetail()
+
+  const { isFavorite, toggleFavorite } = useContext(FavoritesContext)
+  const favorited = film ? isFavorite(film.id) : false
 
   return (
     <main className="min-h-screen">
@@ -111,11 +116,27 @@ export default function DetailPage() {
 
             {/* Detail Konten */}
             <div className="flex flex-col gap-6 flex-1">
-              {/* Judul & Tagline */}
+              {/* Judul, Tagline & Tombol Favorit */}
               <div>
-                <h1 className="font-display text-4xl md:text-5xl font-bold text-film-text leading-tight mb-2">
-                  {film.title}
-                </h1>
+                <div className="flex items-start justify-between gap-4 mb-2">
+                  <h1 className="font-display text-4xl md:text-5xl font-bold text-film-text leading-tight">
+                    {film.title}
+                  </h1>
+                  {/* Tombol Favorit — menggunakan FavoritesContext */}
+                  <button
+                    id="favorite-btn"
+                    onClick={() => toggleFavorite(film)}
+                    className="flex-shrink-0 mt-1 w-10 h-10 flex items-center justify-center rounded-full border transition-all duration-200 text-lg"
+                    style={{
+                      borderColor: favorited ? '#c0392b' : 'rgba(212,168,67,0.3)',
+                      color: favorited ? '#c0392b' : '#8a8494',
+                    }}
+                    aria-label={favorited ? 'Hapus dari favorit' : 'Tambah ke favorit'}
+                    title={favorited ? 'Hapus dari favorit' : 'Simpan ke favorit'}
+                  >
+                    {favorited ? '♥' : '♡'}
+                  </button>
+                </div>
                 {film.tagline && (
                   <p className="font-body text-film-gold italic text-base opacity-80">
                     "{film.tagline}"
